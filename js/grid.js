@@ -1,10 +1,19 @@
 import number from './number.js'
 
+/**
+ * constante grid 
+ * contient les specs générales à chaque cellules du plateau
+ */
 const grid = {
-    gridElement: document.getElementsByClassName("grid")[0], //On recupère les éléments de la classe grid à l'index 0
+    gridElement: document.getElementsByClassName("grid")[0], //On recupère les éléments de la classe grid à partir l'index 0
     cells: [], 
-    playable: false,
+    playable: false, // variable permettant s'il est possible de jouer ou non 
+
+    /*
+     * ensemble des directions de jeu possible 
+     */
     directionRoots: {
+
         //roots sont les premiers index de lignes ou de colonnes de la direction du balayage
         'UP': [1, 2, 3, 4],
         'RIGHT': [4, 8, 12, 16],
@@ -12,10 +21,14 @@ const grid = {
         'LEFT': [1, 5, 9, 13]
     }, 
 
+    /**
+     * fonction d'initialisation de la partie
+     */
     init: function(){
-        const cellElements = document.getElementsByClassName("cell");
+        const cellElements = document.getElementsByClassName("cell"); //on récupère toutes les cellules du jeu
         let cellIndex = 1;
 
+        
         for(let cellElement of cellElements){
             grid.cells[cellIndex] = {
                 element: cellElement, 
@@ -23,29 +36,38 @@ const grid = {
                 left: cellElement.offsetLeft,
                 number: null
             }
-
             cellIndex++;    
         }
 
         //génération du premier nombre et du début du jeu
         number.spawn();
-        this.playable = true;
+        this.playable = true; //jeu jouable lorsque le premier nombre est généré
 
-    }, 
+    },
+
+    /** 
+     * génération des cellules qui n'auront pas de nombres au démarrage de la partie
+     */
     randomEmptyCellIndex: function() {
         let emptyCells = [];
 
-        for (let i = 1; i < this.cells.length; i++) {
-            if(this.cells[i].number === null) {
-                emptyCells.push(i);
+        for (let i = 1; i < this.cells.length; i++) { // pour chaque cellules du plateau
+            if(this.cells[i].number === null) { // si le nombre 
+                emptyCells.push(i); // on ajoute i éléments au tableau emptyCell et renvoie sa longueure
             }           
         }
 
+        
+        /* si la taille du tableau contenant l'ensemble des cellules vides = 0 */
         if (emptyCells.length === 0) {
-            /* Si il n'y a plus de cases libre, on a perdu */
+            /* fonction return false */
             return false;
         }
 
+        /**
+         * le tableau emptyCell renvoie le plus grand entier inférieur ou égal 
+         * à un nombre aléatoire * la taille du tableau emptyCell
+         */
         return emptyCells[Math.floor(Math.random()*emptyCells.length)];
     },
 
@@ -63,43 +85,44 @@ const grid = {
         //permet d'obtenir les directions des indices racines de grille
         const roots = this.directionRoots[direction];
 
-        //indexes increments or decrements depend on direction
+        //on index (mets à jour) en incrémentant ou décrémentant la direction -1 pour aller à droite et 1 pour aller en bas
         let increment = (direction === 'RIGHT' || direction === 'DOWN') ? -1 : 1;
 
         //indexe se déplace lorsque
-        increment *= (direction === 'UP' || direction === 'DOWN') ? 4 : 1; 
+        increment *= (direction === 'UP' || direction === 'DOWN') ? 4 : 1;  //increment = increment * direction
 
         //on  démarre une boucle avec l'indexe racine 
         for (let i = 0; i < roots.length; i++) {
             const root = roots[i];
 
-            //increment or decrement through grid from root 
-            // j starts from 1 bc  no need to check root cell
-            for (let j = 1; j < 4; j++) {
-                const cellIndex = root + (j * increment);
+            //on incrémente ou décremente la grille à partir de la racine (case de spawn)
+            for (let j = 1; j < 4; j++) { // on démarre j à un car on a pas besoin de vérifier la cellule racine
+                const cellIndex = root + (j * increment); //la cellule index = chemin parcourue + j * la valeur incrémentée
                 const cell = this.cells[cellIndex];
 
-                if (cell.number !== null) {
-                    let moveToCell = null;
+                if (cell.number !== null) { //s'il n'y a pas de nombres dans une cellule
+                    let moveToCell = null; //on ne peut pas faire bouger la cellule
 
-                    //check if cells below(to root)this cell empty or has name number
-                    //to decide to move or stay
-                    // k starts from j-1 first cell bellow j
-                    // k ends by 0 which is root cell
+                    /**
+                     * on vérifie si les cellules en dessous de la route ont un numéro
+                     * on décide de bouger ou non
+                     *  k commence à partir de j-1 première cellule ci-dessous j
+                     * k se termine par 0 qui est la cellule racine
+                     */
                     for (let k = j-1; k >= 0; k--) {
                         const forecellIndex = root + (k * increment);
-                        const foreCell = this.cells[forecellIndex];
+                        const foreCell = this.cells[forecellIndex]; //cellule antérieure
 
                         if (foreCell.number === null) {
-                            //the cell is empty move to and check next cell
-                            moveToCell = foreCell;
-                        } else if(cell.number.dataset.value === foreCell.number.dataset.value) {
-                            //the cell has same number, move, merge and stop
+                            //la cellule est vide déplacer et vérifier la cellule suivante
+                            moveToCell = foreCell; //on se déplace vers la cellule antérieure
+                        } else if(cell.number.dataset.value === foreCell.number.dataset.value) { //si deux cellules qui se rencontrent ont le même numéro
+                            //on se déplace vers la cellule et la cellule antérieure devient la cellule index
                             moveToCell = foreCell;
                             break;
                         } else{
-                            //next cell is nempty and not same with moving number
-                            // number can't go further
+                            //la cellule suivante est vide et ne contient pas de numéros
+                            // le nombre ne peut pas aller plus loin
                             break;
                         }
                     }
@@ -112,16 +135,21 @@ const grid = {
             } 
         }
 
-        //spawn a new number and make game playable
+        /**
+         * définition du temps de jeu 
+         * le jeu est jouable tant qu'un vhiffre peut spawné
+         * le jeu se termine lorsque qu'il n'y a plus de cases libres disponibles
+         */
         setTimeout(function() {
 
-            if (number.spawn()) {
-                grid.playable = true;
+             
+            if (number.spawn()) { // si un nombre a bien spawné après un déplacement 
+                grid.playable = true; // le jeu est jouable 
             
             } else {
-                alert("GAME OVER!");
+                alert("GAME OVER!");// donne une alerte de fin de jeu (à changer) TODO ALEX
             }
-        }, 500)
+        }, 500) //temps entre le mouvement et le spawn du nouveau chiffre en ms
     }
 }
 

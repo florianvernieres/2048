@@ -5,7 +5,8 @@ body, html {
     font-family: 'Clear Sans', Arial, sans-serif;
 }
 
-.wrapper {
+/* plateau de jeu */
+.plateau{
     width: 70vmin;
     height: 70vmin;
     margin: 0 auto; 
@@ -13,12 +14,13 @@ body, html {
     border-radius: 5px;
 }
 
+/* grille contenant l'ensemble des cellules de déplacement */
 .grid {
     width: 100%; 
     position: relative;
 }
 
-
+/* cellule où il est possible de se déplacer */
 .cell {
     width: 15vmin;
     height: 15vmin;
@@ -27,11 +29,12 @@ body, html {
     float: left;
     border-radius: 10px;
 }
-/* add left margin to first childs of rows */
+/* ajout d'une marge à gauche pour chaque première cellule des lignes */
 .cell:nth-child(4n+1) {
     margin-left: 2vmin;
 }
 
+/* nombres */
 .number {
     position: absolute; /* le chiffre est au premier plan */
     height: 15vmin;
@@ -42,7 +45,7 @@ body, html {
     line-height: 15vmin;
     background-color: #faf8ef;
     color: #776e65;
-    transition: all .3s;
+    transition: all .3s; /* vitesse de transition lorsque l'on se déplace */
     border-radius: 10px;
     
 }

@@ -1,6 +1,9 @@
 import grid from './grid.js';
 
 
+/**
+ * fonction permettant d'initialiser un plateau en début de partie
+ */
 grid.init();
 
 /* fonction permettant de capter un évènement, içi celle de la touche de direction */
