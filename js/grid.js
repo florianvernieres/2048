@@ -129,7 +129,6 @@ const grid = {
 
                     if (moveToCell !== null) {
                         number.moveTo(cell, moveToCell);
-
                     }     
                 }   
             } 
@@ -137,7 +136,7 @@ const grid = {
 
         /**
          * définition du temps de jeu 
-         * le jeu est jouable tant qu'un vhiffre peut spawné
+         * le jeu est jouable tant qu'un chiffre peut spawné
          * le jeu se termine lorsque qu'il n'y a plus de cases libres disponibles
          */
         setTimeout(function() {
@@ -145,9 +144,8 @@ const grid = {
              
             if (number.spawn()) { // si un nombre a bien spawné après un déplacement 
                 grid.playable = true; // le jeu est jouable 
-            
             } else {
-                alert("GAME OVER!");// donne une alerte de fin de jeu (à changer) TODO ALEX
+                alert("GAME OVER!");// donne une alerte de fin de jeu
             }
         }, 500) //temps entre le mouvement et le spawn du nouveau chiffre en ms
     }

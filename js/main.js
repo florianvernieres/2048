@@ -30,3 +30,8 @@ document.addEventListener('keyup', function(e) {
 
     return false;
 });
+
+const rejouer = document.getElementById('restart'); // On récupère l'élément sur lequel on veut détecter le clic
+rejouer.addEventListener('click', function() {      // On écoute l'événement click
+    document.location.reload();                     // On recharge la page pour recommencer
+});

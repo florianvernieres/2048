@@ -7,32 +7,37 @@
     </head>
     <body>
         <h1 class="title">2048</h1>
+
+        <button id="restart"> Nouvelle Partie </button>
     
+        <label id="label">Score : </label>
+        <!--<input type="number" id="score" name="name" required minlength="4" maxlength="8" size="10">-->
+        <p id="score">0</p>
+        
         <p class="regles"><b>Comment jouer:</b> utilisez les flèches pour déplacer les cases. <br /> Lorsque 2 cases avec le même nombre sont côte à côte, alors elles s'assemblent en une seule.</p>
 
-
-    <!-- plateau de jeu -->
-    <div class="plateau">
-        <!-- Grille contenant l'ensemble des cellules où l'on peut se déplacer -->
-        <div class="grid">
-            <div class="cell"></div>
-            <div class="cell"></div>
-            <div class="cell"></div>
-            <div class="cell"></div>
-            <div class="cell"></div>
-            <div class="cell"></div>
-            <div class="cell"></div>
-            <div class="cell"></div>
-            <div class="cell"></div>
-            <div class="cell"></div>
-            <div class="cell"></div>
-            <div class="cell"></div>
-            <div class="cell"></div>
-            <div class="cell"></div>
-            <div class="cell"></div>
-            <div class="cell"></div>
+        <!-- plateau de jeu -->
+        <div class="plateau">
+         <!-- Grille contenant l'ensemble des cellules où l'on peut se déplacer -->
+            <div class="grid">
+                <div class="cell"></div>
+                <div class="cell"></div>
+                <div class="cell"></div>
+                <div class="cell"></div>
+                <div class="cell"></div>
+                <div class="cell"></div>
+                <div class="cell"></div>
+                <div class="cell"></div>
+                <div class="cell"></div>
+                <div class="cell"></div>
+                <div class="cell"></div>
+                <div class="cell"></div>
+                <div class="cell"></div>
+                <div class="cell"></div>
+                <div class="cell"></div>
+                <div class="cell"></div>
+            </div>
         </div>
-    </div>
 
         <script src="js/main.js" type="module"></script>
     </body>
