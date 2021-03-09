@@ -1,4 +1,3 @@
-import grid from './grid.js';
 
 /**
  * classe number qui gère la génération du nombre 
@@ -92,5 +91,3 @@ const number = {
         }
     }
 }
-
-export default number;

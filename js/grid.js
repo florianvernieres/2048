@@ -1,4 +1,3 @@
-import number from './number.js'
 
 /**
  * constante grid 
@@ -150,5 +149,3 @@ const grid = {
         }, 500) //temps entre le mouvement et le spawn du nouveau chiffre en ms
     }
 }
-
-export default grid;

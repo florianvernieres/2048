@@ -1,5 +1,3 @@
-import grid from './grid.js';
-
 
 /**
  * fonction permettant d'initialiser un plateau en début de partie
